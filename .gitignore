@@ -1,0 +1,40 @@
+﻿# Entornos y configuracion local
+.venv/
+venv/
+.env
+.vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Archivos temporales
+*.log
+.DS_Store
+Thumbs.db
+
+# Checkpoints y pesos de modelos grandes
+**/checkpoint-*/
+**/checkpoints/
+**/modelo_final/
+**/modelo_final_train_val/
+**/mejor_modelo/
+*.safetensors
+pytorch_model.bin
+optimizer.pt
+scheduler.pt
+
+# Archivos temporales de entrenamiento
+wandb/
+runs/
+
+# Datasets intermedios
+parte2/datos/resenas_metal_archives_1000.csv
+parte2/datos/resenas_metal_archives_1000_final.csv
+
+# Analisis exploratorio de dataset antiguo
+parte2/codigo/analizar_distribucion.py
+
+# Entrenamiento antiguo no utilizado
+parte2/codigo/entrenar_distilbert_final.py

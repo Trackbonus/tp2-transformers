@@ -1,0 +1,78 @@
+{
+    "learning_rate_ganador_etapa_1": 3e-05,
+    "experimento_ganador_etapa_1": "E3",
+    "resultados": [
+        {
+            "experimento": "E1",
+            "etapa": 1,
+            "learning_rate": 1e-05,
+            "epocas": 3,
+            "max_length": 512,
+            "seed": 42,
+            "batch_size": 8,
+            "weight_decay": 0.01,
+            "mae": 10.280752182006836,
+            "rmse": 15.12578385268688
+        },
+        {
+            "experimento": "E2",
+            "etapa": 1,
+            "learning_rate": 2e-05,
+            "epocas": 3,
+            "max_length": 512,
+            "seed": 42,
+            "batch_size": 8,
+            "weight_decay": 0.01,
+            "mae": 9.719228744506836,
+            "rmse": 14.57035857901561
+        },
+        {
+            "experimento": "E3",
+            "etapa": 1,
+            "learning_rate": 3e-05,
+            "epocas": 3,
+            "max_length": 512,
+            "seed": 42,
+            "batch_size": 8,
+            "weight_decay": 0.01,
+            "mae": 9.607643127441406,
+            "rmse": 14.390657339981304
+        },
+        {
+            "experimento": "E4",
+            "etapa": 2,
+            "learning_rate": 3e-05,
+            "epocas": 2,
+            "max_length": 512,
+            "seed": 42,
+            "batch_size": 8,
+            "weight_decay": 0.01,
+            "mae": 9.65512466430664,
+            "rmse": 14.469337402020717
+        },
+        {
+            "experimento": "E5",
+            "etapa": 2,
+            "learning_rate": 3e-05,
+            "epocas": 4,
+            "max_length": 512,
+            "seed": 42,
+            "batch_size": 8,
+            "weight_decay": 0.01,
+            "mae": 9.610564231872559,
+            "rmse": 14.415036383089058
+        },
+        {
+            "experimento": "E6",
+            "etapa": 2,
+            "learning_rate": 3e-05,
+            "epocas": 3,
+            "max_length": 512,
+            "seed": 42,
+            "batch_size": 8,
+            "weight_decay": 0.05,
+            "mae": 9.718389511108398,
+            "rmse": 14.524503852393828
+        }
+    ]
+}

@@ -1,0 +1,12 @@
+{
+    "experimento": "E3",
+    "etapa": 1,
+    "learning_rate": 3e-05,
+    "epocas": 3,
+    "max_length": 512,
+    "seed": 42,
+    "batch_size": 8,
+    "weight_decay": 0.01,
+    "mae": 9.607643127441406,
+    "rmse": 14.390657339981304
+}

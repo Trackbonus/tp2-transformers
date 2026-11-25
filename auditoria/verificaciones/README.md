@@ -1,0 +1,3 @@
+# Verificaciones de infraestructura
+
+Guarde aquí comandos ejecutados, salidas relevantes y evidencias de configuración, montajes y permisos. No registre como aprobadas pruebas que no se hayan ejecutado. `infraestructura.md` distingue las ejecuciones registradas previamente, los resultados confirmados por el usuario y las propiedades inferidas estáticamente. `auditoria_independiente.md` contiene la revisión realizada en una conversación nueva de Codex; `verificaciones_complementarias.md` conserva las inspecciones adicionales de usuario, límites, redes y puertos. La auditoría independiente está documentada, aunque sigue pendiente la revisión personal de sus hallazgos y no se ha probado el alcance externo de permisos de Codex en Windows.

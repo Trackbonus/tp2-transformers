@@ -1,0 +1,83 @@
+{
+  "experimento": "E3",
+  "configuracion": {
+    "modelo": "distilbert-base-uncased",
+    "learning_rate": 3e-05,
+    "num_train_epochs": 3,
+    "weight_decay": 0.01,
+    "batch_size": 8,
+    "max_length": 512,
+    "seed": 42,
+    "train_file": "/workspace/parte2/datos/train.csv",
+    "validation_file": "/workspace/parte2/datos/validation.csv"
+  },
+  "definicion_loss": "MSELoss de DistilBERT para regresión, con etiquetas puntuacion/100, igual que en el optimizador original. En cada step registrado, training_loss y validation_loss son eval_loss promedios del Trainer sobre cada conjunto completo, evaluados secuencialmente sin gradientes con el mismo estado de pesos.",
+  "resultados_por_step": [
+    {
+      "step": 50,
+      "epoch": 0.25125628140703515,
+      "training_loss": 0.029686369001865387,
+      "validation_loss": 0.035626206547021866
+    },
+    {
+      "step": 100,
+      "epoch": 0.5025125628140703,
+      "training_loss": 0.02113141305744648,
+      "validation_loss": 0.028905389830470085
+    },
+    {
+      "step": 150,
+      "epoch": 0.7537688442211056,
+      "training_loss": 0.014719805680215359,
+      "validation_loss": 0.024381643161177635
+    },
+    {
+      "step": 200,
+      "epoch": 1.0050251256281406,
+      "training_loss": 0.02156480960547924,
+      "validation_loss": 0.032942481338977814
+    },
+    {
+      "step": 250,
+      "epoch": 1.2562814070351758,
+      "training_loss": 0.01286307629197836,
+      "validation_loss": 0.02681640535593033
+    },
+    {
+      "step": 300,
+      "epoch": 1.507537688442211,
+      "training_loss": 0.011387882754206657,
+      "validation_loss": 0.02722454071044922
+    },
+    {
+      "step": 350,
+      "epoch": 1.758793969849246,
+      "training_loss": 0.010418803431093693,
+      "validation_loss": 0.021970175206661224
+    },
+    {
+      "step": 400,
+      "epoch": 2.0100502512562812,
+      "training_loss": 0.016509296372532845,
+      "validation_loss": 0.03591988608241081
+    },
+    {
+      "step": 450,
+      "epoch": 2.2613065326633164,
+      "training_loss": 0.006862659472972155,
+      "validation_loss": 0.02308880351483822
+    },
+    {
+      "step": 500,
+      "epoch": 2.5125628140703515,
+      "training_loss": 0.00631314842030406,
+      "validation_loss": 0.022593636065721512
+    },
+    {
+      "step": 550,
+      "epoch": 2.7638190954773867,
+      "training_loss": 0.005421603564172983,
+      "validation_loss": 0.02138780988752842
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+services:
+  teoria:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: tp2-python:3.12
+    working_dir: /workspace/parte1
+    user: "10001:10001"
+    init: true
+    command: ["sleep", "infinity"]
+    cpus: 2.0
+    mem_limit: 2g
+    networks:
+      - teoria_net
+    read_only: true
+    tmpfs:
+      - /tmp
+    volumes:
+      - type: bind
+        source: ./parte1
+        target: /workspace/parte1
+
+  practica:
+    image: tp2-python:3.12
+    working_dir: /workspace/parte2
+    user: "10001:10001"
+    init: true
+    command: ["sleep", "infinity"]
+    environment:
+      HF_HOME: /tmp/huggingface
+      HF_HUB_CACHE: /tmp/huggingface/hub
+      TORCH_HOME: /tmp/torch
+    volumes:
+      - ./parte2:/workspace/parte2
+    cpus: 2.0
+    mem_limit: 4g
+    networks:
+      - default
+    gpus: all
+
+  auditoria:
+    image: tp2-python:3.12
+    working_dir: /workspace/auditoria
+    user: "10001:10001"
+    init: true
+    command: ["sleep", "infinity"]
+    cpus: 2.0
+    mem_limit: 2g
+    networks:
+      - auditoria_net
+    read_only: true
+    tmpfs:
+      - /tmp
+    volumes:
+      - type: bind
+        source: ./parte1
+        target: /workspace/parte1
+        read_only: true
+      - type: bind
+        source: ./parte2
+        target: /workspace/parte2
+        read_only: true
+      - type: bind
+        source: ./auditoria
+        target: /workspace/auditoria
+
+networks:
+  teoria_net:
+    driver: bridge
+  practica_net:
+    driver: bridge
+  auditoria_net:
+    driver: bridge

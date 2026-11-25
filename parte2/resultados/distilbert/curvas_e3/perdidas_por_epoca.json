@@ -1,0 +1,32 @@
+{
+  "experimento": "E3",
+  "configuracion": {
+    "modelo": "distilbert-base-uncased",
+    "learning_rate": 3e-05,
+    "num_train_epochs": 3,
+    "weight_decay": 0.01,
+    "batch_size": 8,
+    "max_length": 512,
+    "seed": 42,
+    "train_file": "/workspace/parte2/datos/train.csv",
+    "validation_file": "/workspace/parte2/datos/validation.csv"
+  },
+  "definicion_loss": "MSELoss de DistilBERT para regresión, sobre etiquetas puntuacion/100; eval_loss promedio del Trainer sobre el conjunto completo.",
+  "resultados_por_epoca": [
+    {
+      "época": 1,
+      "training_loss": 0.02009752206504345,
+      "validation_loss": 0.031191661953926086
+    },
+    {
+      "época": 2,
+      "training_loss": 0.011644810438156128,
+      "validation_loss": 0.02983088232576847
+    },
+    {
+      "época": 3,
+      "training_loss": 0.005046009086072445,
+      "validation_loss": 0.021163973957300186
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "modelo": "resultados/distilbert/optimizacion_6_experimentos/mejor_modelo",
+  "conjunto": "test",
+  "registros": 212,
+  "escala_puntuaciones": [
+    0,
+    100
+  ],
+  "mae": 9.493915413910488,
+  "rmse": 13.66110897658977,
+  "error_absoluto_minimo": {
+    "puntuacion": 78,
+    "review_url": "https://www.metal-archives.com/reviews/Enoid/Dodssyklus/150518/Noktorn/29088",
+    "titulo": NaN,
+    "banda": "Enoid",
+    "banda_url": NaN,
+    "album": "Dodssyklus",
+    "album_url": NaN,
+    "autor": "Noktorn",
+    "fecha": "May 30th, 2008",
+    "texto": "Enoid is a Swiss one-man black metal project that plays brutal, blasting black metal in the modern vein. If you know the sound of your usual roster of Swedish black metallers or 1349, you have a good idea of the stuff here: nonstop, blistering music designed to punish the listener with constant tremolo riffs and blast beats. While it's a style that can go south relatively quickly without very strong songwriting to back it up, Enoid manages to avoid the pitfalls of many of its peers via substantially above average riffwork, evocative production, and a definite sense of misanthropy above and beyond most Marduk clones.\n\nA drum machine is employed, and while it's pretty obviously inhuman it's not very obtrusive, adding just enough rhythm and noisy rumble to increase the intensity and drive of the riffs. Their role is echoed by the vocals, a traditional, raspy scream pushed slightly into the background while the guitars do their black magic. The riffs are uniformly good, employing a buzzing, overdistorted guitar tone that's just slightly synthetic to increase the coldness of the pieces. Riffing is very concentrated on semimelodic tremolo work with the occasional slower passage, but most of this is very high speed, brutal music. It's relatively bare-bones black metal: there's no keys, clean passages, or anything that really deviates from the conventions of the genre, which puts that much more emphasis on these simple elements to tell their stories. But fortunately, Bornyhake knows how to write a solid black metal song, so you're never at want for better composition.\n\nIn the end, Enoid is a workhorse black metal album that, while somewhat unremarkable, is very consistent and well-written. Just about any black metal fan will find this to be an enjoyable listen all the way through. Just remember not to turn it off during the silence on the last track or you'll miss a very savage and enjoyable cover of Mayhem's 'Buried By Time And Dust'.",
+    "estado": "OK",
+    "longitud_caracteres": 1961,
+    "longitud_palabras": 326,
+    "puntuacion_real": 78.0,
+    "puntuacion_predicha": 77.98305749893188,
+    "error_con_signo": -0.016942501068115234,
+    "error_absoluto": 0.016942501068115234
+  },
+  "error_absoluto_maximo": {
+    "puntuacion": 10,
+    "review_url": "https://www.metal-archives.com/reviews/Anatomy/Surgical_Dissection_Without_Anaesthesia/61415/Garbage_Can/22070",
+    "titulo": "Headline: New metal supergroup created!",
+    "banda": "Anatomy",
+    "banda_url": "https://www.metal-archives.com/bands/Anatomy/28206",
+    "album": "Surgical Dissection Without Anaesthesia",
+    "album_url": "https://www.metal-archives.com/albums/Anatomy/Surgical_Dissection_Without_Anaesthesia/61415",
+    "autor": "Garbage_Can",
+    "fecha": "November 29th",
+    "texto": "In a historic union, members of the metal foundations Apocalypse and Evig Kveld joined forces to create metal history. The new \"supergroup\" Anatomy is the result. Granted it's still shit coming out of your speakers, but compared to previous demos, this one will blow your colon out! It is one more step up the metal ladder for Shadow of Death, as he races towards metal superstardom. \n\nThis demo features a better sounding guitar than previous \"releases\". The four riffs featured here have increased in difficulty but they have also increased in repetition. It reminds me of walking down the hallway in school and listening to the band practice scales. But it is exciting to mention that there are fewer fuck-ups on this demo, and the speed of the riffs has increased. The progress is slow and painful, but it's there people!\n\nThe vocals are slightly (and I do mean slightly) better. We could use a few more lyrics however. It's obvious you found your anatomy textbook to draw inspiration for your band name and song titles, so find a few graphic lines and spew them out, McGraw Hill will not track you down for copyright infringement. And stop with the \"from out of nowhere gasping/choking noise\", it really gets annoying. But hey, don't give up. You can do it!\n\nBut please find a drummer and bass player! Even though you're from New England, your high school has to have a jazz band. Next time you record offer these two geeks some porn or a bucket of chicken, have them come over and play something! Play anything! Loop their output and your shit-stank recording will sound more like a real band making a genuine effort rather than some guy sitting in the basement hitting the record button every time he comes up with a variation to Mary Had a Little Lamb\". Trust me, it will sound better.\n\nSurgical Dissection Without Anaesthesia peaks at :34 and flatlines at :51, the rest is the repetition of two separate but equal riffs with one more verse. I don't need to mention Pathological Errors Become Nightmares. There is no need to even mention its existence.\n\nMembers of Encyclopaedia Metallum, you have an opportunity to witness something special. Together we can witness the rise of a metal band. We have seen its inception, now join hands and wait for the first real demo, then follow these crusaders to their first gig at the junior prom and then brag to others when you hear their first single play on the radio, as you say, I listened to Anatomy before they sold out! God bless and stay tuned.",
+    "estado": "ok",
+    "longitud_caracteres": 2501,
+    "longitud_palabras": 440,
+    "puntuacion_real": 10.0,
+    "puntuacion_predicha": 78.29012870788574,
+    "error_con_signo": 68.29012870788574,
+    "error_absoluto": 68.29012870788574
+  },
+  "nota": "MAE y RMSE calculados sobre las predicciones de este análisis; comparar con la evaluación final del mismo checkpoint."
+}

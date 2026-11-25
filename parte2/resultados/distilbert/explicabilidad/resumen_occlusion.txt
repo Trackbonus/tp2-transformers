@@ -1,0 +1,45 @@
+ANALISIS DE SENSIBILIDAD POR OCCLUSION DE ORACIONES
+Este analisis mide cambios ante eliminaciones de texto; no demuestra causalidad ni constituye una explicacion definitiva del modelo.
+
+Resena: Dream Theater — Awake
+Autor: colin040
+URL: https://www.metal-archives.com/reviews/Dream_Theater/Awake/131/colin040/135223
+Puntuacion real: 55.000000
+Prediccion original registrada: 21.99409306
+Prediccion original recalculada: 21.99408859
+Consistente con CSV (tolerancia 1e-4): True
+Tokens incluyendo tokens especiales: 1103
+Limite de entrada: 512; texto truncado: True
+Oraciones analizadas: 26
+
+Mayores cambios absolutos (prediccion sin oracion menos prediccion original):
+
+12. Cambio: +7.373308 (aumento); prediccion sin oracion: 29.367396
+‘’The Mirror’’ happens when you give a seven string guitar to the wrong musician - I’m all for chugging but if that’s basically all you do in a track, your creativity is rather out of sight - not to mention LaBrie embraces the same errors as he did in ‘’Lie’’ and Kevin Moore is wasting his talents here with his pseudo-spooky keys that wouldn't even scare a five year old kid.
+
+4. Cambio: +7.016395 (aumento); prediccion sin oracion: 29.010484
+That’s the only logical explanation I have for this problem - Kevin Moore’s keyboards become more inefficient, James LaBrie tries to show his tough side with mixed results and John Petrucci tries out his new toy, which doesn’t all work out for the best either.
+
+3. Cambio: +6.863920 (aumento); prediccion sin oracion: 28.858009
+Even the performances are becoming more inconsistent here and  I can't help but think these guys weren't allowed to contribute their own craft and that instead, they told each other what to write.
+
+10. Cambio: +5.668102 (aumento); prediccion sin oracion: 27.662191
+Regardless, ‘’Lie’’ is definitely the worst tune on Awake (I should mention having checked the video clip of this song where James LaBrie makes these silly moves doesn’t make things better either).
+
+1. Cambio: +4.782201 (aumento); prediccion sin oracion: 26.776290
+The best studio album of Dream Theater can be traced down right here and as you see, that’s hardly saying much.
+
+5. Cambio: +4.508097 (aumento); prediccion sin oracion: 26.502186
+Awake sees Dream Theater slipping into darker territory – something which on paper should work out well, but truth to be told doesn’t mean that much.
+
+9. Cambio: +4.309176 (aumento); prediccion sin oracion: 26.303264
+I’m not talking about vocal technique here, but it’s out of his vocal character, especially on ''Lie'' where the pseudo intimidating whispered/half distorted rapped delivery is just awful and that harmony halfway through is quite something, too, as it recalls an elderly tenor sounding all hysterical and pissed off at his neighbor.
+
+11. Cambio: +4.079090 (aumento); prediccion sin oracion: 26.073179
+Second of all a few tunes here were written on a seven string guitar, which one might expect to work out for the better but that's not always the case.
+
+2. Cambio: +4.041110 (aumento); prediccion sin oracion: 26.035199
+Awake is yet another ambitious effort of these guys that turns out to be too problematic for its own good.
+
+6. Cambio: +3.610925 (aumento); prediccion sin oracion: 25.605014
+The two biggest differences compared to Images and Words are the vocal lines and the seven string guitars.

@@ -1,0 +1,617 @@
+Trabajo Práctico 2 Álgebra Lineal y Optimización
+Facultad de Ingeniería y Ciencias
+ING560 — Álgebra Lineal y Optimización para Data Science
+Profesores: Martín Ríos-Wilson | Tania Roa
+Ayudante: Alejandro García
+Trabajo Práctico 2
+Transformers: fundamentos matemáticos, entrenamiento y
+optimización
+Trabajo grupal asistido por agentes de inteligencia artificial
+Fechas de entrega y presentaciones: por informar a través del curso
+Evaluación y escala de notas. El trabajo tiene dos partes, cada una con un máximo de 60
+puntos. La Parte 1 se evalúa mediante informe y la Parte 2 mediante presentación. Ambas
+tienen ponderación 50 %. En cada parte se aplicará
+Nota de la parte =
+puntaje obtenido + 10
+10
+La nota final del TP2 corresponde al promedio de las notas de las dos partes. La Parte 0 es
+obligatoria y se evalúa únicamente en el informe de la Parte 1, donde representa 6 de los
+60 puntos. No agrega puntos a la presentación de la Parte 2 ni constituye una tercera nota.
+Índice
+1. Presentación y objetivos de aprendizaje 2
+2. Parte 0. Infraestructura y flujo de trabajo con agentes 2
+3. Parte 1. Fundamentos y entrenamiento: informe (60 puntos) 5
+4. Parte 2. Proyecto aplicado y presentación (60 puntos) 8
+5. Protocolo de trazabilidad y validación humana 10
+6. Rúbricas de evaluación 12
+7. Bibliografía y documentación recomendada 13
+1
+Trabajo Práctico 2 Álgebra Lineal y Optimización
+1. Presentación y objetivos de aprendizaje
+Los transformers son arquitecturas de aprendizaje automático que transforman representaciones de
+datos mediante operaciones matriciales, atención y funciones no lineales. Su utilidad depende no
+solo de la arquitectura: también es fundamental entrenar sus parámetros, controlar el proceso de
+optimización y evaluar los resultados obtenidos.
+En este trabajo usted utilizará agentes de inteligencia artificial como asistentes de estudio, programación y auditoría. Sin embargo, deberá comprender los fundamentos y comprobar personalmente
+las operaciones y las conclusiones que presente. El énfasis estará en el entrenamiento, no en utilizar
+el modelo más grande ni en alcanzar necesariamente la mejor precisión.
+Al finalizar, usted deberá ser capaz de:
+1. Explicar las operaciones de álgebra lineal que intervienen en una cabeza de atención y distinguir
+cantidades calculadas de parámetros entrenables.
+2. Comprender cómo se calcula una función de pérdida y cómo la regla de la cadena permite obtener
+gradientes respecto de los pesos.
+3. Implementar y entrenar una cabeza de atención, verificar numéricamente sus gradientes y comprobar la evolución de sus parámetros.
+4. Diseñar comparaciones controladas de tasas de aprendizaje y algoritmos de optimización, e
+interpretar sus curvas de entrenamiento.
+5. Entrenar o ajustar un transformer pequeño en un problema de datos reales, justificando las
+decisiones y limitaciones computacionales.
+6. Organizar un proyecto asistido por agentes mediante entornos Docker separados, conservar la
+trazabilidad de los prompts y producir un HANDOFF.md auditable.
+1.1. Organización y responsabilidad académica
+Debe desarrollar la Parte 0 antes de las actividades evaluadas. La Parte 1 culmina en un informe
+escrito; la Parte 2 culmina en una presentación oral de 10 minutos por grupo (8 de exposición y 2
+de preguntas).
+El uso de agentes es obligatorio. Puede utilizar OpenAI Codex, Claude Code, Google Antigravity,
+OpenCode u otros agentes y modelos de su elección, incluidos modelos locales. No se requiere contratar
+servicios de pago. Usted responde académicamente por el código, las derivaciones, las métricas y las
+conclusiones entregadas.
+2. Parte 0. Infraestructura y flujo de trabajo con agentes
+Obligatoria. Esta parte se evalúa exclusivamente en el informe de la Parte 1 y vale 6 puntos
+de los 60 disponibles. Su infraestructura también deberá utilizarse en la Parte 2, pero no se
+asignará un puntaje adicional por la Parte 0 en la presentación.
+2.1. Propósito del aislamiento
+Si un agente conserva el historial de desarrollo o acceso a los mismos archivos de otras tareas, puede
+basarse inadvertidamente en supuestos previos, modificar resultados ajenos o revisar su propio trabajo
+sin independencia. Docker permite separar procesos, dependencias, sistemas de archivos y límites
+de recursos. Docker no borra por sí mismo la memoria ni el historial de un modelo: para
+separar los contextos debe iniciar sesiones nuevas y controlar los archivos que cada agente puede
+leer.
+2
+Trabajo Práctico 2 Álgebra Lineal y Optimización
+Usted deberá crear tres contenedores distintos, uno por función:
+Contenedor Responsabilidad Acceso esperado
+teoria Desarrollo matemático y experimentos
+controlados de la Parte 1.
+Escritura en parte1/; sin acceso al
+directorio de trabajo de la Parte 2.
+practica Datos reales, modelo, entrenamiento y
+resultados de la Parte 2.
+Escritura en parte2/; sin acceso al
+directorio de trabajo de la Parte 1.
+auditoria Revisión independiente y generación
+del handoff.
+Lectura de ambas partes y escritura
+solo en auditoria/.
+2.2. Preparación del repositorio
+Instale Docker Engine y Docker Compose, o Docker Desktop, siguiendo https://docs.docker.com/
+get-docker/. Verifique la instalación:
+docker --version
+docker compose version
+Cree una estructura semejante a la siguiente (puede adaptar los nombres, pero no eliminar la
+separación):
+tp2-transformers/
+compose.yaml
+Dockerfile # opcional: una imagen o varias
+parte1/
+PROMPTS.md
+codigo/
+resultados/
+parte2/
+PROMPTS.md
+codigo/
+datos/
+resultados/
+auditoria/
+PROMPTS.md
+HANDOFF.md
+VALIDACION_HUMANA.md
+verificaciones/
+Solicite al agente que genere y explique un archivo compose.yaml con tres servicios, sus montajes
+y límites de recursos. Como referencia, utilice 2 CPU y 2 GiB de RAM para teoría, 2 CPU
+y hasta 4 GiB para práctica y 2 CPU y 2 GiB para auditoría; se aceptan límites inferiores si
+su computador lo requiere. Utilice imágenes ligeras de Python con dependencias documentadas y
+reproducibles.
+Aislamiento exigido. Los directorios de teoría y práctica no deben montarse con permisos de
+escritura en el auditor; utilice montajes de solo lectura (por ejemplo, :ro). Configure espacios
+de trabajo separados y evite montajes adicionales que permitan modificar los archivos del otro
+proyecto. No monte el directorio personal completo, claves de API ni el docker.sock; no utilice
+contenedores privilegiados. Si el agente corre fuera de Docker, limite también sus permisos
+externos y explique esta limitación en el handoff.
+Una vez preparados los archivos, compruebe la configuración y levante los servicios:
+docker compose config
+docker compose build
+docker compose up -d
+docker compose ps
+3
+Trabajo Práctico 2 Álgebra Lineal y Optimización
+Compruebe la ejecución con los nombres de servicio establecidos:
+docker compose exec teoria python --version
+docker compose exec practica python --version
+docker compose exec auditoria python --version
+Para ejecutar el proyecto en cada entorno, utilice docker compose exec <servicio>... y documente los comandos concretos. Al terminar podrá detener los servicios con docker compose down; los
+archivos guardados en los directorios montados permanecerán en el computador. Si es necesario instalar dependencias, incorpórelas a la construcción de las imágenes en lugar de depender exclusivamente
+de instalaciones manuales dentro de un contenedor efímero.
+2.3. Integración con el agente elegido
+Puede ejecutar el cliente del agente dentro del contenedor si su herramienta lo permite, o
+utilizar un cliente en su computador que ejecute comandos en el contenedor. En este segundo caso,
+el aislamiento del agente depende también de sus permisos en el computador anfitrión. Utilice una
+sesión distinta para teoría, otra para práctica y otra nueva e independiente para auditoría. No
+comparta la conversación de desarrollo con el auditor.
+Los agentes que utilizan servicios remotos pueden necesitar conexión a Internet; los modelos locales
+se podrán usar si dispone del software necesario. La arquitectura debe ser reproducible y no debe
+exigir GPU.
+2.4. Prompt orientativo para configurar Docker
+Puede entregar a su agente un prompt de esta forma, adaptándolo según su equipo:
+«Configure un proyecto académico reproducible con Docker Compose. Cree exactamente tres
+contenedores: teoria, practica y auditoria. Separe los directorios de trabajo de las dos primeras
+partes. El auditor debe acceder en modo solo lectura a ambos proyectos y escribir sus resultados
+únicamente en auditoria/. Utilice Python, recursos modestos, dependencias documentadas y
+ejecución en CPU. Genere los archivos, los comandos de prueba y un README. No monte
+credenciales, el directorio personal ni el socket de Docker. Informe qué comprobaciones realizó
+realmente y cuáles quedaron pendientes.»
+2.5. Pruebas obligatorias y handoff de infraestructura
+Usted debe demostrar y documentar que:
+1. Los tres servicios se inician correctamente y tienen las carpetas esperadas.
+2. Los contenedores de teoría y práctica no pueden modificar los archivos de trabajo del otro.
+3. El auditor puede leer los archivos de ambos proyectos, pero un intento controlado de escritura
+en esos montajes falla.
+4. Los comandos para construir, iniciar y ejecutar los entornos están documentados; los límites y
+dependencias son identificables.
+5. El agente auditor se utiliza desde una sesión independiente y sus hallazgos se escriben en su propio
+directorio.
+Conserve comandos ejecutados, salidas relevantes y comprobaciones en auditoria/. Solicite al agente
+auditor que documente en el HANDOFF.md la arquitectura real de contenedores: servicios, imágenes,
+límites de CPU/RAM, montajes, redes, permisos, herramientas de IA usadas y limitaciones. Usted
+debe contrastar esa descripción con los archivos y pruebas efectivos.
+4
+Trabajo Práctico 2 Álgebra Lineal y Optimización
+3. Parte 1. Fundamentos y entrenamiento: informe (60 puntos)
+La Parte 1 será evaluada mediante un informe escrito. Su foco será comprender los parámetros del
+mecanismo de atención y estudiar cómo se optimizan. Esta parte incluye los 6 puntos de la Parte
+0.
+3.1. Fundamentos necesarios
+Considere una secuencia de n elementos, cada uno representado por un vector de dimensión d.
+Organice sus representaciones en
+X ∈ R
+n×d
+.
+La atención de una cabeza emplea tres transformaciones aprendibles:
+Q = XWQ, K = XWK, V = XWV ,
+donde WQ, WK ∈ R
+d×dk y WV ∈ R
+d×dv
+. A continuación, calcule
+S =
+QKT
+√
+dk
+, A = softmaxfilas(S), H = AV.
+Para cada fila i, la normalización es
+Aij =
+exp(Sij )
+Pn
+ℓ=1 exp(Siℓ)
+.
+Las matrices WQ, WK, WV son pesos entrenables; Q, K, V, S, A, H son cantidades calculadas a
+partir de los datos y de esos pesos. Un transformer completo incorpora además varias cabezas de
+atención, mecanismos posicionales, redes feed-forward, normalización y conexiones residuales. En
+esta parte usted comenzará con una sola cabeza para poder analizar el entrenamiento con detalle.
+3.2. Actividad 1. Atención y operaciones matriciales 8 puntos
+Explique con sus palabras qué representa cada matriz y por qué las dimensiones hacen posible
+calcular QKT y AV . Desarrolle el significado de los productos internos entre queries y keys, de la
+normalización softmax y de las combinaciones ponderadas de values. Distinga parámetros entrenables
+de coeficientes de atención; explique brevemente para qué sirven la información posicional y la
+atención de múltiples cabezas.
+Ejercicio manual de matrices elegidas por usted. Seleccione cuatro matrices de dimensión
+2 × 2, con entradas enteras: X, WQ, WK, WV ∈ Z
+2×2
+. Deben cumplir todas estas restricciones:
+a) Sus entradas deben pertenecer a {−1, 0, 1}. Se permiten ceros como entradas individuales.
+b) Está expresamente prohibido escoger la matriz nula o la matriz identidad para
+cualquiera de las cuatro matrices.
+c) La matriz X debe ser invertible (det X ̸= 0).
+d) Al calcular S = QKT /
+√
+2, al menos una fila debe tener dos puntajes distintos; así evitará un
+ejemplo de atención completamente uniforme.
+Con sus matrices, calcule a mano y paso a paso Q, K, V, S, A, H. Presente cada multiplicación
+matricial. Para la función softmax puede dejar expresiones exactas con exponenciales y, si
+desea obtener aproximaciones decimales, utilizar una calculadora sencilla. No es necesario calcular
+exponenciales mentalmente ni realizar operaciones de matrices mayores que 2 × 2.
+5
+Trabajo Práctico 2 Álgebra Lineal y Optimización
+Cálculo manual obligatorio. Usted debe elegir las matrices y resolver estas operaciones
+sin pedir a un agente de IA que realice los cálculos por usted. No envíe las matrices
+elegidas a un agente para obtener la solución antes de completar su desarrollo personal. Después
+de terminar, puede utilizar un programa o agente para verificar el resultado; documente esa
+verificación por separado. Incorpore al informe su desarrollo manual legible (escaneo o fotografía),
+identificado por su autor. Durante la revisión se podrán formular preguntas individuales sobre
+él.
+3.3. Actividad 2. Gradiente y actualización de pesos 12 puntos
+El aprendizaje de los parámetros busca minimizar una pérdida, por ejemplo
+L(θ) = 1
+2
+∥H(θ) − T∥
+2
+F
+.
+Con H = AXWV y A fija, demuestre mediante cálculo matricial y regla de la cadena que
+∇WV L = XT A
+T
+(AXWV − T).
+Indique en cada etapa las dimensiones de las matrices. Explique por qué A puede tratarse como fija
+solo en este ejercicio y no al entrenar conjuntamente WQ y WK.
+Actualización manual. Reutilice las matrices X y WV que escogió en la Actividad 1. Para simplificar
+la aritmética, esta vez elija independientemente una matriz A ∈ Q2×2
+con entradas en {
+1
+4
+,
+1
+2
+,
+3
+4
+},
+estrictamente positivas, filas que sumen uno y filas distintas. Esta A se utiliza solo como matriz de
+atención fija del ejercicio de gradiente: no es necesario que coincida con el softmax calculado
+en la Actividad 1. Elija además T ∈ Z
+2×2
+, con entradas en {−1, 0, 1}, que no sea ni la matriz nula
+ni la identidad.
+Calcule a mano:
+a) La salida H0 = AXWV y la pérdida inicial L0 =
+1
+2
+∥H0 − T∥
+2
+F
+.
+b) El gradiente G = XT AT
+(AXWV − T).
+c) La actualización por descenso por gradiente con η =
+1
+2
+: W
+(1)
+V = WV −
+1
+2G.
+d) La nueva salida H1 = AXW(1)
+V
+y la nueva pérdida L1.
+e) Una discusión sobre si la pérdida disminuyó. No suponga que toda tasa de aprendizaje
+garantiza una disminución.
+Todas las matrices siguen siendo 2×2. Los cálculos utilizan únicamente productos, sumas y fracciones
+sencillas. Se prohíbe usar un agente para resolver esta actualización manual antes de haberla
+terminado; sí puede contrastarla posteriormente y conservar el historial de verificación.
+Finalmente, derive la expresión elemental para softmax
+∂ai
+∂sj
+= ai(δij − aj )
+y explique, a nivel conceptual y mediante la regla de la cadena, cómo la pérdida depende también de
+WQ y WK. No se le exige desarrollar manualmente todos los gradientes de un transformer completo.
+3.4. Actividad 3. Implementación y entrenamiento controlado 14 puntos
+En el contenedor teoria, implemente con Python una cabeza de atención que calcule las matrices
+Q, K, V, S, A, H mediante operaciones explícitas. Puede utilizar NumPy o PyTorch y diferenciación
+automática. No sustituya la cabeza completa por una función de atención preimplementada.
+Construya un problema sintético de tipo teacher–student:
+6
+Trabajo Práctico 2 Álgebra Lineal y Optimización
+1. Genere entradas X ∈ R
+4×8
+, con al menos 512 ejemplos de entrenamiento, 128 de validación
+y 128 de prueba.
+2. Inicialice una vez matrices de referencia W∗
+Q, W∗
+K, W∗
+V ∈ R
+8×8
+. Utilice el modelo de referencia para
+producir las salidas objetivo.
+3. Cree un segundo modelo con pesos diferentes y entrene las tres matrices WQ, WK, WV para
+aproximar esas salidas.
+4. Documente la semilla aleatoria, la función de pérdida, el tamaño de batch, la cantidad de pasos,
+la tasa de aprendizaje y el optimizador.
+Implemente un ciclo que calcule predicciones, pérdida, gradientes y actualizaciones. Señale en el código
+dónde ocurren esas operaciones. Muestre que los pesos cambian y registre las curvas de entrenamiento
+y validación. No es necesario recuperar las matrices originales: distintas parametrizaciones
+pueden producir salidas equivalentes o próximas.
+Prueba de gradientes: elija al menos una entrada de cada una de WQ, WK, WV y compare el
+gradiente de diferenciación automática con diferencias finitas centrales:
+∂L
+∂w
+≈
+L(w + ε) − L(w − ε)
+2ε
+.
+Justifique ε, la precisión numérica y los errores observados. Conserve el mismo minibatch y los demás
+parámetros entre las dos evaluaciones de cada diferencia finita. Documente la comprobación de forma
+reproducible.
+3.5. Actividad 4. Comparación de optimizadores 16 puntos
+Con el modelo anterior realice tres experimentos controlados:
+A. Tasa de aprendizaje: compare al menos dos valores con un mismo optimizador. Analice
+velocidad de aprendizaje y estabilidad.
+B. Optimizador: compare SGD con Adam o AdamW. Justifique las tasas de aprendizaje elegidas
+para cada uno.
+C. Gradientes: registre y grafique su norma durante el entrenamiento; discuta su relación con las
+actualizaciones y la evolución de la pérdida.
+Mantenga idénticas la arquitectura y las divisiones de datos; controle la inicialización y el presupuesto
+de entrenamiento. Repita al menos dos semillas para las comparaciones principales. No necesita
+una búsqueda exhaustiva de hiperparámetros.
+El informe debe incluir curvas de entrenamiento y validación, una tabla con configuraciones y métricas,
+la norma de gradientes y una discusión de los resultados, incluidos los problemas de convergencia o
+sobreajuste si aparecen. Seleccione configuraciones mediante validación y use el conjunto de prueba
+para la evaluación final, no para elegir hiperparámetros.
+Presupuesto razonable. Esta parte está diseñada para ejecutarse en CPU. Use modelos
+y batches pequeños y detenga configuraciones que excedan los recursos de su computador.
+Documente cualquier reducción de presupuesto. Se evaluará la calidad de la comparación y su
+interpretación, no el consumo de cómputo.
+3.6. Actividad 5. Auditoría y validación humana 4 puntos
+Inicie una sesión nueva del agente auditor, en el tercer contenedor, y solicítele revisar derivaciones,
+código, pruebas de gradientes, métricas y conclusiones. Debe conservar el informe del agente con sus
+hallazgos y discrepancias. Después, usted deberá verificar personalmente las observaciones relevantes
+7
+Trabajo Práctico 2 Álgebra Lineal y Optimización
+y registrar qué aceptó o rechazó, con su justificación. Una declaración del propio agente de que «todo
+está correcto» no constituye validación humana.
+3.7. Entrega de la Parte 1
+Entregue una carpeta o archivo comprimido que contenga:
+1. Informe escrito de extensión sugerida de 8 a 12 páginas, sin contar anexos. Incluya ecuaciones,
+desarrollo manual legible, explicación de la implementación, resultados y discusión.
+2. Código, configuración, registros y resultados reproducibles, con un README que indique
+los comandos de ejecución.
+3. parte1/PROMPTS.md y auditoria/PROMPTS.md: registro íntegro de los prompts enviados a los
+agentes, incluidos los prompts accesibles de delegaciones automáticas. Identifique agente, propósito,
+orden y archivos/resultados asociados. No incluya secretos ni razonamientos privados del modelo.
+4. auditoria/HANDOFF_P1.md: documento generado por el agente auditor y revisado por los estudiantes. Debe cubrir el estado de la Parte 1, la arquitectura Docker, los comandos de reproducción,
+las evidencias y las limitaciones.
+5. auditoria/VALIDACION_HUMANA.md: registro individual de verificaciones, que identifique responsable, método, evidencia, resultado y correcciones. Incluya especialmente los cálculos manuales,
+los gradientes y el origen de las curvas.
+4. Parte 2. Proyecto aplicado y presentación (60 puntos)
+En esta etapa usted elegirá un problema y un conjunto de datos reales, y entrenará o ajustará un
+transformer para abordarlo. La evaluación consistirá en una presentación grupal de 10 minutos.
+La infraestructura de la Parte 0 deberá seguir utilizándose, pero su configuración no tiene puntaje
+adicional en la Parte 2: los 60 puntos de la presentación corresponden exclusivamente al proyecto
+aplicado, sus resultados, su comunicación y su auditoría.
+4.1. Elección del problema y de los datos
+Puede escoger clasificación de textos, análisis de sentimientos, predicción de series temporales,
+clasificación de imágenes, análisis de señales u otra aplicación adecuada. No está obligado a
+trabajar con lenguaje natural. Debe definir qué se predice, por qué el transformer es razonable,
+de dónde provienen los datos, qué variables utiliza y cómo separa entrenamiento, validación y prueba
+sin filtraciones de información. Respete las condiciones de uso de los datos.
+4.2. Alcance computacional: modelos pequeños por diseño
+No se espera entrenar un gran modelo de lenguaje ni disponer de GPU. Adapte el alcance
+a un computador personal. Para un transformer construido desde cero, se sugieren los siguientes
+máximos orientativos, no mínimos obligatorios:
+8
+Trabajo Práctico 2 Álgebra Lineal y Optimización
+Característica Referencia
+Hardware CPU (GPU opcional)
+Memoria asignada al contenedor
+práctico
+Hasta 4 GiB
+Capas transformer 1–2
+Dimensión de representación 32–64
+Cabezas de atención 2–4
+Longitud de secuencia Hasta 64 elementos
+Parámetros entrenables Preferentemente menos de 1 millón
+Conjunto de entrenamiento Subconjunto de hasta 5 000 ejemplos
+Presupuesto por configuración Hasta 250 pasos o 3 épocas, lo primero que ocurra
+Estas cifras son recomendaciones para acotar el costo, no requisitos que deba alcanzar. Reduzca
+aún más el tamaño si su computador lo necesita. Si utiliza un modelo preentrenado, podrá aplicar
+fine-tuning o adaptación eficiente de parámetros, como LoRA, solo si es viable con sus recursos.
+No se exigirá ajustar un modelo cuyo tamaño exceda su memoria disponible. No se requiere suscribirse
+a servicios de pago.
+Si un entrenamiento es demasiado lento, puede interrumpirlo o reducir el modelo, los datos o los
+pasos. Documente la decisión y analice lo que pudo observar. No se exige una precisión
+mínima ni convergencia perfecta.
+4.3. Modelo, entrenamiento y experimentos
+Explique qué arquitectura seleccionó, cuáles son los parámetros entrenables y cuántos hay, qué
+función de pérdida utiliza, qué optimizador emplea y cómo escogió sus hiperparámetros. Se aceptan
+el entrenamiento desde cero de un transformer pequeño o el fine-tuning efectivo de parámetros de un
+modelo preentrenado. No basta con generar predicciones utilizando un modelo congelado
+sin ningún entrenamiento.
+Incluya tres componentes:
+1. Modelo de referencia: evalúe un método simple y pertinente para disponer de una comparación.
+2. Transformer: entrene o ajuste el modelo y registre pérdidas, hiperparámetros, duración o pasos
+y métricas apropiadas.
+3. Comparación de optimización: compare al menos dos configuraciones (por ejemplo, tasas
+de aprendizaje, optimizadores o estrategias de ajuste), procurando mantener constantes los demás
+factores. No se pide una búsqueda exhaustiva.
+Use los datos de validación para seleccionar el modelo y reserve la prueba para la evaluación final.
+Presente curvas o registros de entrenamiento y explique qué ocurrió, incluso si el transformer no
+superó el modelo de referencia. Un resultado negativo bien analizado también es válido.
+4.4. Presentación de 10 minutos
+Dispone de 8 minutos de exposición y 2 de preguntas por grupo. Se recomienda preparar 5 a 6
+diapositivas, sin dedicar tiempo excesivo a repetir la teoría de la Parte 1. Priorice los experimentos
+de optimización.
+9
+Trabajo Práctico 2 Álgebra Lineal y Optimización
+Contenido sugerido Tiempo
+Problema, datos y objetivo 1 min
+Arquitectura y pesos entrenables 1 min
+Entrenamiento y optimización 2,5 min
+Curvas, comparaciones y métricas 2,5 min
+Conclusiones y limitaciones 1 min
+Preguntas 2 min
+Total 10 min
+Todos los integrantes deben dominar el trabajo y estar preparados para responder preguntas
+individuales acerca de los datos, el entrenamiento, los parámetros y la interpretación de resultados.
+4.5. Auditoría y entrega de la Parte 2
+Utilice el contenedor practica para el desarrollo y el contenedor auditoria para una revisión independiente final. Actualice los registros de prompts y solicite al auditor que genere auditoria/HANDOFF.md,
+integrando la Parte 1 y la Parte 2. Este documento debe explicar la arquitectura Docker realmente usada y proporcionar comandos concretos para reproducir las afirmaciones principales.
+Entregue: diapositivas, código y resultados, parte2/PROMPTS.md, auditoria/PROMPTS.md actualizado, auditoria/HANDOFF.md actualizado y auditoria/VALIDACION_HUMANA.md actualizado.
+No se exige un segundo informe escrito.
+5. Protocolo de trazabilidad y validación humana
+5.1. Registro de prompts
+Conserve los prompts enviados a los agentes en orden cronológico, indicando herramienta/modelo,
+propósito y referencia a los archivos, comandos o resultados asociados. Incluya los prompts accesibles
+que un agente envíe a otros agentes. Puede conservar las transcripciones como anexos si resultan
+extensas. No revele claves, credenciales, datos personales innecesarios ni razonamientos
+internos ocultos de los modelos.
+5.2. Contenido mínimo del handoff
+El handoff será escrito por el agente auditor, pero deberá ser revisado y corregido por usted
+cuando detecte errores. Incluya, por lo menos:
+1. Objetivos, estado del trabajo y estructura de archivos.
+2. Arquitectura de los tres contenedores: imágenes, límites, redes, permisos, montajes, dependencias
+y sesiones de agentes.
+3. Ecuaciones y parámetros entrenables; función de pérdida y optimizadores.
+4. Comandos y semillas para reproducir los experimentos.
+5. Métricas, gráficos y afirmaciones, identificando los archivos que realmente los respaldan.
+6. Verificaciones automáticas y validaciones humanas, con responsables y evidencias.
+7. Errores, dudas, limitaciones y pruebas que no pudieron completarse.
+8. Instrucciones para un nuevo agente revisor que no haya participado en el desarrollo.
+10
+Trabajo Práctico 2 Álgebra Lineal y Optimización
+5.3. Cómo documentar la validación humana
+Para cada resultado importante, registre quién lo revisó, qué comprobó, cómo lo comprobó, dónde
+está la evidencia y qué decisión tomó. Por ejemplo, una afirmación sobre el descenso de una pérdida
+debe remitir al registro real de entrenamiento y a la curva elaborada desde esos datos. Una derivación
+debe poder explicarse sin apelar a la autoridad del agente.
+Puede pedir al agente que prepare pruebas y solicite una revisión adversarial, pero debe interpretar y
+aceptar personalmente sus resultados. El profesor podrá ejecutar comprobaciones adicionales, revisar
+prompts y handoffs, y formular preguntas individuales. La evaluación final corresponderá al
+profesor.
+5.4. Prompt orientativo para auditoría
+«Actúe como revisor matemático y computacional independiente. Tiene acceso de lectura a los
+resultados de teoría y práctica, y un directorio propio para escribir verificaciones. No asuma que
+el trabajo es correcto ni modifique los originales. Revise dimensiones, demostraciones, gradientes,
+implementación, divisiones de datos, configuraciones de entrenamiento y métricas. Compruebe
+también la arquitectura Docker y sus permisos. Distinga evidencia ejecutada, resultados meramente reportados y afirmaciones no verificadas. Genere el handoff en Markdown, con comandos
+reproducibles, hallazgos, errores y limitaciones. No invente resultados ni oculte problemas».
+11
+Trabajo Práctico 2 Álgebra Lineal y Optimización
+6. Rúbricas de evaluación
+Cada parte se califica sobre 60 puntos. Se asignarán puntos de acuerdo con la calidad de las
+explicaciones, los cálculos, las ejecuciones y la evidencia entregada. La ausencia de un entregable
+obligatorio afecta los criterios asociados. El uso de IA, por sí solo, no sustituye ninguna demostración,
+ejecución o validación.
+6.1. Rúbrica del informe: Parte 1 (60 puntos)
+Actividad Indicador evaluado Pts.
+Parte 0 Los tres servicios Docker están construidos, iniciados y son utilizables.
+2
+Separación de directorios y permisos; lectura y denegación de escritura del auditor comprobadas.
+2
+Comandos reproducibles, documentación y descripción verificada
+de la arquitectura en el handoff.
+2
+Actividad 1 Explica Q, K, V , dimensiones y diferencia entre pesos y coeficientes
+de atención.
+2
+Explica productos internos, softmax, salida, posiciones y múltiples
+cabezas.
+2
+Selecciona matrices admisibles y realiza correctamente los cálculos
+manuales Q, K, V, S, A, H.
+3
+Presenta y documenta verificación posterior, separada del desarrollo
+manual.
+1
+Actividad 2 Deriva y justifica correctamente el gradiente respecto de WV , con
+dimensiones.
+4
+Calcula manualmente H0,L0, G, W(1)
+V
+, H1,L1 y los interpreta. 5
+Explica derivada de softmax y dependencia de WQ, WK por regla
+de la cadena.
+2
+Presenta contraste posterior de los cálculos y evidencia de revisión
+personal.
+1
+Actividad 3 Implementa explícitamente la atención y documenta las dimensiones. 3
+Construye el problema teacher–student y separa correctamente los
+conjuntos de datos.
+3
+Entrena WQ, WK, WV y registra actualizaciones y pérdidas. 4
+Comprueba gradientes de las tres matrices mediante diferencias
+finitas.
+3
+Entrega scripts, semillas y evidencia de reproducción. 1
+Actividad 4 Compara tasas de aprendizaje con una interpretación respaldada
+por curvas.
+3
+Compara SGD con Adam/AdamW y justifica los hiperparámetros. 3
+Registra normas de gradiente y analiza su evolución. 3
+Controla datos, semillas, inicializaciones y presupuestos de comparación.
+3
+Presenta resultados y conclusiones críticas coherentes con la evidencia.
+4
+Actividad 5 Efectúa auditoría independiente, conserva hallazgos y responde a
+discrepancias.
+2
+Documenta validaciones humanas individuales con evidencias verificables.
+2
+Total Parte 1 60
+12
+Trabajo Práctico 2 Álgebra Lineal y Optimización
+6.2. Rúbrica de la presentación: Parte 2 (60 puntos)
+La Parte 0 se califica solo en el informe. En esta rúbrica no se otorgan puntos adicionales por montar
+los contenedores; sí se evalúa la trazabilidad y la validación de los resultados del proyecto práctico.
+Criterio Indicador evaluado Pts.
+Problema y datos Define objetivo, fuente y características de los datos. 2
+Separa entrenamiento, validación y prueba, evitando filtraciones. 2
+Justifica la pertinencia del transformer para el problema. 2
+Arquitectura Describe el modelo y sus componentes relevantes. 3
+Identifica qué parámetros se entrenan y cuántos son. 3
+Justifica la selección del modelo según recursos disponibles. 2
+Entrenamiento y
+optimización
+Define adecuadamente pérdida, optimizador e hiperparámetros. 4
+Ejecuta y evidencia el entrenamiento y registra la evolución de
+pérdidas.
+7
+Compara de forma controlada dos configuraciones de optimización. 7
+Respeta o justifica el presupuesto de cómputo y documenta decisiones.
+4
+Resultados y análisis
+Presenta un modelo de referencia apropiado y comparable. 3
+Utiliza métricas pertinentes y evalúa correctamente en validación/-
+prueba.
+3
+Interpreta curvas y comparaciones con evidencia experimental. 4
+Explica limitaciones, errores o resultados negativos sin exagerar
+conclusiones.
+2
+Presentación Respeta tiempo y prioriza ideas esenciales en una exposición sintética.
+3
+Organiza diapositivas, gráficos y explicaciones claras. 2
+Demuestra dominio mediante respuestas a preguntas individuales. 3
+Auditoría y trazabilidad
+Entrega prompts y handoff actualizado, con referencia a archivos y
+resultados.
+2
+Presenta auditoría independiente y evidencias de validación humana.
+2
+Total Parte 2 60
+Conversión de puntajes a notas. Si obtiene P1 puntos en el informe y P2 en la presentación,
+con 0 ≤ P1, P2 ≤ 60, entonces
+N1 =
+P1 + 10
+10
+, N2 =
+P2 + 10
+10
+, NT P2 =
+N1 + N2
+2
+.
+7. Bibliografía y documentación recomendada
+1. Vaswani, A. et al. (2017). Attention Is All You Need.
+https://arxiv.org/abs/1706.03762
+2. Kingma, D. P. y Ba, J. (2014). Adam: A Method for
+Stochastic Optimization. https://arxiv.org/abs/14
+12.6980
+3. Loshchilov, I. y Hutter, F. (2019). Decoupled Weight
+Decay Regularization. https://arxiv.org/abs/1711.0
+5101
+4. PyTorch. Automatic Differentiation. https://docs.p
+ytorch.org/docs/stable/autograd.html
+5. Hugging Face. Training Transformers. https://hugg
+ingface.co/docs/transformers/training
+6. Docker. Compose File Reference. https://docs.docke
+r.com/reference/compose-file/services/
+7. Docker. Bind Mounts. https://docs.docker.com/en
+gine/storage/bind-mounts/
+13

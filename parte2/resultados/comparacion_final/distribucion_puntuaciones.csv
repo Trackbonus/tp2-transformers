@@ -1,0 +1,69 @@
+conjunto,intervalo,cantidad,porcentaje
+Dataset completo,20-24,42,4.2
+Dataset completo,25-29,58,5.800000000000001
+Dataset completo,30-34,0,0.0
+Dataset completo,35-39,0,0.0
+Dataset completo,40-44,0,0.0
+Dataset completo,45-49,41,4.1000000000000005
+Dataset completo,50-54,109,10.9
+Dataset completo,55-59,0,0.0
+Dataset completo,60-64,0,0.0
+Dataset completo,65-69,0,0.0
+Dataset completo,70-74,219,21.9
+Dataset completo,75-79,281,28.1
+Dataset completo,80-84,0,0.0
+Dataset completo,85-89,0,0.0
+Dataset completo,90-94,0,0.0
+Dataset completo,95-99,120,12.0
+Dataset completo,100-104,130,13.0
+Train,20-24,40,5.044136191677175
+Train,25-29,47,5.926860025220681
+Train,30-34,0,0.0
+Train,35-39,0,0.0
+Train,40-44,0,0.0
+Train,45-49,33,4.16141235813367
+Train,50-54,84,10.592686002522068
+Train,55-59,0,0.0
+Train,60-64,0,0.0
+Train,65-69,0,0.0
+Train,70-74,169,21.311475409836063
+Train,75-79,217,27.364438839848678
+Train,80-84,0,0.0
+Train,85-89,0,0.0
+Train,90-94,0,0.0
+Train,95-99,98,12.35813366960908
+Train,100-104,105,13.240857503152585
+Validation,20-24,2,1.8691588785046727
+Validation,25-29,5,4.672897196261682
+Validation,30-34,0,0.0
+Validation,35-39,0,0.0
+Validation,40-44,0,0.0
+Validation,45-49,5,4.672897196261682
+Validation,50-54,12,11.214953271028037
+Validation,55-59,0,0.0
+Validation,60-64,0,0.0
+Validation,65-69,0,0.0
+Validation,70-74,29,27.102803738317753
+Validation,75-79,29,27.102803738317753
+Validation,80-84,0,0.0
+Validation,85-89,0,0.0
+Validation,90-94,0,0.0
+Validation,95-99,12,11.214953271028037
+Validation,100-104,13,12.149532710280374
+Test,20-24,0,0.0
+Test,25-29,6,6.0
+Test,30-34,0,0.0
+Test,35-39,0,0.0
+Test,40-44,0,0.0
+Test,45-49,3,3.0
+Test,50-54,13,13.0
+Test,55-59,0,0.0
+Test,60-64,0,0.0
+Test,65-69,0,0.0
+Test,70-74,21,21.0
+Test,75-79,35,35.0
+Test,80-84,0,0.0
+Test,85-89,0,0.0
+Test,90-94,0,0.0
+Test,95-99,10,10.0
+Test,100-104,12,12.0

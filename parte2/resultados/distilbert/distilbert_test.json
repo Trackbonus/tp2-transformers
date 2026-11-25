@@ -1,0 +1,7 @@
+{
+    "modelo": "DistilBERT",
+    "conjunto": "test",
+    "n_registros": 100,
+    "mae": 11.233596801757812,
+    "rmse": 15.592737819913104
+}

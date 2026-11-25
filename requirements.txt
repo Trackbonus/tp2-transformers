@@ -1,0 +1,10 @@
+numpy
+matplotlib
+Pillow==12.2.0
+pandas==2.3.3
+scikit-learn
+transformers
+accelerate
+joblib
+requests
+beautifulsoup4

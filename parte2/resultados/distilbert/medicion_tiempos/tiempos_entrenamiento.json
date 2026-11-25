@@ -1,0 +1,37 @@
+{
+  "modelo": "distilbert-base-uncased",
+  "configuracion": {
+    "learning_rate": 3e-05,
+    "num_train_epochs": 3,
+    "batch_size": 8,
+    "weight_decay": 0.01,
+    "seed": 42,
+    "max_length": 512
+  },
+  "dispositivo": "cuda",
+  "dataset": {
+    "entrenamiento": "/workspace/parte2/datos/train.csv",
+    "validacion": "/workspace/parte2/datos/validation.csv",
+    "registros_entrenamiento": 1588,
+    "registros_validacion": 200
+  },
+  "tiempos_segundos": {
+    "por_epoca": [
+      38.387460378000014,
+      35.48309688299992,
+      38.173355826000034
+    ],
+    "total_trainer_train": 113.26091636599995,
+    "promedio_por_epoca": 37.347971028999986
+  },
+  "metricas_validacion": {
+    "eval_loss": 0.02107120491564274,
+    "eval_mae": 9.69287395477295,
+    "eval_rmse": 14.5159245882028,
+    "eval_runtime": 1.3573,
+    "eval_samples_per_second": 147.348,
+    "eval_steps_per_second": 18.419,
+    "epoch": 3.0
+  },
+  "fecha_medicion_utc": "2026-11-22T02:21:44.377968+00:00"
+}

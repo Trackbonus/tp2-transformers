@@ -1,0 +1,8 @@
+{
+    "modelo": "TF-IDF + Ridge",
+    "alpha": 0.1,
+    "MAE": 11.398444480250076,
+    "RMSE": 15.121827768734144,
+    "n_entrenamiento": 900,
+    "n_prueba": 100
+}

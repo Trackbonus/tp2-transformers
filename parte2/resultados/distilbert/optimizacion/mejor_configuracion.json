@@ -1,0 +1,9 @@
+{
+    "experimento": "lr_3e5",
+    "learning_rate": 3e-05,
+    "epocas": 3,
+    "batch_size": 8,
+    "weight_decay": 0.01,
+    "mae": 9.446971893310547,
+    "rmse": 14.374612023466765
+}
