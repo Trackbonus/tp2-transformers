@@ -6,7 +6,7 @@ Esta configuración proporciona tres entornos independientes para el trabajo: `t
 
 - Docker Desktop con el motor Linux activo (contexto `desktop-linux`) y Docker Compose v2.
 - PowerShell o una terminal compatible con Docker Compose.
-- No se requiere GPU.
+- No se requiere GPU (aunque se utilizó para acelerar varios procesos).
 
 ## Acceso, montajes y recursos
 
